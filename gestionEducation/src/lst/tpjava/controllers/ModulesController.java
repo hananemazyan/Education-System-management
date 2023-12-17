@@ -60,7 +60,7 @@ public class ModulesController {
         FilieresController.showFilieres();
         int filiereId = Main.getIntInput("Sélectionnez une filière par id :");
 
-        ModuleServices.addFiliere(intitule, EnseignantServices.getEnsById(id), FiliereServices.getFiliereById(filiereId));
+        ModuleServices.addModule(intitule, EnseignantServices.getEnsById(id), FiliereServices.getFiliereById(filiereId));
 
         showModules();
         showMenu();
