@@ -12,8 +12,10 @@ public class Etudiant {
     private Filiere filiere;
     ArrayList<Note> notes = new ArrayList<Note>();
 
-
-
+    @Override
+    public String toString() {
+        return "Id: " + id + " | Nom: " + nom + " | Email: " + email + " | Apogee: " + apogee + " | Filiere: " + filiere.getIntitule();
+    }
     public Etudiant() {
     }
 

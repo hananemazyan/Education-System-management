@@ -11,6 +11,10 @@ public class Filiere {
 
     ArrayList<Module> modules = new ArrayList<Module>();
 
+    @Override
+    public String toString() {
+    return "Id: " + id + " | intitule: " + intitule;
+}
     public Filiere() {
     }
 

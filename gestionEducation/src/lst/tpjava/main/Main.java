@@ -5,6 +5,8 @@ import lst.tpjava.controllers.EnseignantsController;
 import lst.tpjava.controllers.EtudiantsController;
 import lst.tpjava.controllers.FilieresController;
 import lst.tpjava.controllers.ModulesController;
+import lst.tpjava.controllers.NoteController;
+
 import lst.tpjava.models.Enseignant;
 import lst.tpjava.models.Departement;
 import lst.tpjava.services.DB;
@@ -22,12 +24,7 @@ public class Main {
         if (msg.length > 0 )
             message = msg[0] ;
         System.out.print(message);
-
-
-        // This method reads the number provided using keyboard
         int num = scan.nextInt();
-
-      
         return num;
     }
 
@@ -37,6 +34,17 @@ public class Main {
         return scanner.nextLine();
     }
 
+    public static float getFloatInput(String... msg) {
+        Scanner scan = new Scanner(System.in);
+        String message = "Enter a floating-point number: ";
+        if (msg.length > 0)
+            message = msg[0];
+        System.out.print(message);
+
+        float num = scan.nextFloat();
+
+        return num;
+    }
     public static void showPrincipalMenu(){
         System.out.println("-------------------------[ Bienvenu ]---------------------------");
 
@@ -46,6 +54,7 @@ public class Main {
         System.out.println("3: Pour gérer les enseignants");
         System.out.println("4: Pour gérer les modules");
         System.out.println("5: Pour gérer les étudiants");
+        System.out.println("6: Pour gérer les notes");
         System.out.println("0: Pour sortir");
 
         int option = getIntInput("Veuillez sélectionner une option : ");
@@ -64,6 +73,9 @@ public class Main {
                 break;
             case 5:
                 EtudiantsController.showMenu();
+                break;
+            case 6:
+                NoteController.showMenu();
                 break;
             default:
                 System.out.println("Invalid option. Please enter a valid option.");
@@ -84,6 +96,9 @@ public class Main {
                  break;
                  case 5:
                  EtudiantsController.showMenu();
+                 break;
+                 case 6:
+                 NoteController.showMenu();
                  break;
                  default:
                 System.out.println("Invalid option. Please enter a valid option.");

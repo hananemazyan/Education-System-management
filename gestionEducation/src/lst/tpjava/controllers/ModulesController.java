@@ -1,8 +1,6 @@
 package lst.tpjava.controllers;
 
 import lst.tpjava.main.Main;
-import lst.tpjava.models.Enseignant;
-import lst.tpjava.models.Filiere;
 import lst.tpjava.models.Module;
 import lst.tpjava.services.EnseignantServices;
 import lst.tpjava.services.FiliereServices;
@@ -51,12 +49,7 @@ public class ModulesController {
 
         EnseignantsController.showEnseignants();
         int id = Main.getIntInput("Sélectionnez un enseignant par id :");
-
-        DepartementsController.showDepartements();
-        int depId = Main.getIntInput("Sélectionnez un département par id :");
-
-        // You may want to add more information or validation here based on your application logic
-
+        
         FilieresController.showFilieres();
         int filiereId = Main.getIntInput("Sélectionnez une filière par id :");
 
@@ -74,8 +67,6 @@ public class ModulesController {
         EnseignantsController.showEnseignants();
         int ensId = Main.getIntInput("Sélectionnez un enseignant par id :");
 
-        DepartementsController.showDepartements();
-        int depId = Main.getIntInput("Sélectionnez un département par id :");
         FilieresController.showFilieres();
         int filiereId = Main.getIntInput("Sélectionnez une filière par id :");
 

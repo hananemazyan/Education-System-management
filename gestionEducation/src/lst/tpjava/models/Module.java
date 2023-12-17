@@ -14,8 +14,6 @@ public class Module {
         return "Module{" +
                "id=" + id +
                ", intitule='" + intitule + '\'' +
-               ", chef=" + (chef != null ? chef.getNom() : "None") + // Assuming Enseignant has a getNom() method
-               ", filiere=" + (filiere != null ? filiere.getIntitule() : "None") + // Assuming Filiere has a getIntitule() method
                '}';
     }
 
