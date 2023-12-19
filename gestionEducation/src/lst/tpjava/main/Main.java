@@ -1,5 +1,7 @@
 package lst.tpjava.main;
 
+
+
 import lst.tpjava.controllers.DepartementsController;
 import lst.tpjava.controllers.EnseignantsController;
 import lst.tpjava.controllers.EtudiantsController;
@@ -10,6 +12,7 @@ import lst.tpjava.controllers.NoteController;
 import lst.tpjava.models.Enseignant;
 import lst.tpjava.models.Departement;
 import lst.tpjava.services.DB;
+import lst.tpjava.services.DepartementServices;
 
 import java.util.Scanner;
 
@@ -106,6 +109,8 @@ public class Main {
     }
     public static void main(String[] args) {
 
+         DepartementServices.registerJDBCDriver();
+       
         Enseignant enseignant = new Enseignant();
         enseignant.setNom("Amine");
         enseignant.setPrenom("Ben Charif");
@@ -115,12 +120,21 @@ public class Main {
         DB.enseignants.add(enseignant);
 
 
+        Enseignant enseignant2 = new Enseignant();
+        enseignant2.setNom("Ahmed");
+        enseignant2.setPrenom("Ben");
+        enseignant2.setEmail("ahmed@gmail.com");
+        enseignant2.setGrade("PES");
+        enseignant2.setId(DB.getEnsId());
+        DB.enseignants.add(enseignant2);
+
+
         Departement departement = new Departement();
         departement.setIntitule("Computer Science");
         departement.setChef(enseignant);  
         departement.setId(DB.getDeptId());
-        DB.departements.add(departement);
+        DB.departements.add(departement);         
+           showPrincipalMenu();
 
-        showPrincipalMenu();
     }
 }

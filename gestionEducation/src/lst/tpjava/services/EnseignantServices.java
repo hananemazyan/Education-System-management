@@ -1,91 +1,142 @@
 package lst.tpjava.services;
 
+import lst.tpjava.dao.DatabaseConnector;
 import lst.tpjava.models.Departement;
 import lst.tpjava.models.Enseignant;
 
+import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * EnseignantServices provides a set of services to manage teachers (Enseignant) in the system.
- * It includes methods to add, update, delete, and retrieve teacher information.
- */
 public class EnseignantServices {
 
-    /**
-     * Adds a new teacher to the system.
-     * @param nom The last name of the teacher.
-     * @param prenom The first name of the teacher.
-     * @param email The email address of the teacher.
-     * @param grade The grade or rank of the teacher.
-     * @param dept The department to which the teacher belongs.
-     * @return The newly created Enseignant object.
-     */
+    // ... Other methods remain unchanged
+
     public static Enseignant addEns(String nom, String prenom, String email, String grade, Departement dept) {
-        Enseignant enseignant = new Enseignant(nom, prenom, email, grade, dept);
-        DB.enseignants.add(enseignant); 
+        String sql = "INSERT INTO enseignants (nom, prenom, email, grade, departement_id) VALUES (?, ?, ?, ?, ?)";
+        Enseignant enseignant = null;
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setString(1, nom);
+            pstmt.setString(2, prenom);
+            pstmt.setString(3, email);
+            pstmt.setString(4, grade);
+            pstmt.setInt(5, dept.getId());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int id = generatedKeys.getInt(1);
+                        enseignant = new Enseignant(id, nom, prenom, email, grade, dept);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return enseignant;
     }
 
-    /**
-     * Updates the details of an existing teacher.
-     * @param id The ID of the teacher to update.
-     * @param nom The new last name of the teacher.
-     * @param prenom The new first name of the teacher.
-     * @param email The new email address of the teacher.
-     * @param grade The new grade or rank of the teacher.
-     * @param dept The new department of the teacher.
-     * @return The updated Enseignant object, or null if not found.
-     */
     public static Enseignant updateEns(int id, String nom, String prenom, String email, String grade, Departement dept) {
-        for (Enseignant enseignant : DB.enseignants) {
-            if (enseignant.getId() == id) {
-                enseignant.setNom(nom);
-                enseignant.setPrenom(prenom);
-                enseignant.setEmail(email);
-                enseignant.setGrade(grade);
-                enseignant.setDept(dept); 
-                return enseignant;
+        String sql = "UPDATE enseignants SET nom = ?, prenom = ?, email = ?, grade = ?, departement_id = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nom);
+            pstmt.setString(2, prenom);
+            pstmt.setString(3, email);
+            pstmt.setString(4, grade);
+            pstmt.setInt(5, dept.getId());
+            pstmt.setInt(6, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                return new Enseignant(id, nom, prenom, email, grade, dept);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null; 
+
+        return null;
     }
 
-    /**
-     * Deletes a teacher by their ID.
-     * @param id The ID of the teacher to delete.
-     * @return The list of remaining teachers after deletion.
-     */
-    public static ArrayList<Enseignant> deleteEnsById(int id) {
-        Enseignant enseignantToRemove = null;
-        for (Enseignant enseignant : DB.enseignants) {
-            if (enseignant.getId() == id) {
-                enseignantToRemove = enseignant;
-                break;
-            }
+    public static boolean deleteEnsById(int id) {
+        String sql = "DELETE FROM enseignants WHERE id = ?";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        if (enseignantToRemove != null) {
-            DB.enseignants.remove(enseignantToRemove);
-        }
-        return DB.enseignants;
     }
 
-    /**
-     * Retrieves a teacher by their ID.
-     * @param id The ID of the teacher.
-     * @return The Enseignant object with the specified ID, or null if not found.
-     */
     public static Enseignant getEnsById(int id) {
-        for (Enseignant enseignant : DB.enseignants) {
-            if (enseignant.getId() == id) return enseignant;
+        String sql = "SELECT * FROM enseignants WHERE id = ?";
+        Enseignant enseignant = null;
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int enseignantId = rs.getInt("id");
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String email = rs.getString("email");
+                String grade = rs.getString("grade");
+                int deptId = rs.getInt("departement_id");
+
+                Departement dept = DepartementServices.getDeptById(deptId); // This method should be implemented in DepartementServices
+                enseignant = new Enseignant(enseignantId, nom, prenom, email, grade, dept);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null; 
+
+        return enseignant;
     }
 
-    /**
-     * Retrieves all teachers in the system.
-     * @return A list of all Enseignant objects.
-     */
     public static ArrayList<Enseignant> getAllEns() {
-        return DB.enseignants; 
+        ArrayList<Enseignant> enseignants = new ArrayList<>();
+        String sql = "SELECT * FROM enseignants";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String email = rs.getString("email");
+                String grade = rs.getString("grade");
+                int deptId = rs.getInt("departement_id");
+
+                Departement dept = DepartementServices.getDeptById(deptId); 
+                Enseignant enseignant = new Enseignant(id, nom, prenom, email, grade, dept);
+                enseignants.add(enseignant);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return enseignants;
     }
 }

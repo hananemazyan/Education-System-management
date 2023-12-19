@@ -2,7 +2,11 @@ package lst.tpjava.controllers;
 
 import lst.tpjava.main.Main;
 import lst.tpjava.models.Enseignant;
+import lst.tpjava.models.Departement;
 import lst.tpjava.services.EnseignantServices;
+import lst.tpjava.services.DepartementServices;
+
+import java.util.List;
 
 public class EnseignantsController {
 
@@ -34,20 +38,30 @@ public class EnseignantsController {
     }
 
     public static void showEnseignants() {
-        for (Enseignant enseignant : EnseignantServices.getAllEns()) {
-            System.out.print("Id : " + enseignant.getId());
-            System.out.print(" | Nom : " + enseignant.getNom() + " " + enseignant.getPrenom());
-            System.out.print(" | Email : " + enseignant.getEmail());
-            System.out.println("");
+        List<Enseignant> enseignants = EnseignantServices.getAllEns();
+        if (enseignants.isEmpty()) {
+            System.out.println("Aucun enseignant disponible.");
+        } else {
+            for (Enseignant enseignant : enseignants) {
+                System.out.println("Id: " + enseignant.getId() + " | Nom: " + enseignant.getNom() + " " + enseignant.getPrenom() + " | Email: " + enseignant.getEmail());
+            }
         }
     }
 
     public static void createEnseignant() {
-        String nom = Main.getStringInput("Entrez le nom :");
-        String prenom = Main.getStringInput("Entrez le prénom :");
-        String email = Main.getStringInput("Entrez l'email :");
+        String nom = Main.getStringInput("Entrez le nom : ");
+        String prenom = Main.getStringInput("Entrez le prénom : ");
+        String email = Main.getStringInput("Entrez l'email : ");
+        String grade = Main.getStringInput("Entrez le grade : ");
+        Departement dept = selectDepartment(); // You need to implement this method
 
-        EnseignantServices.addEns(nom, prenom, email, email, null);
+        Enseignant newEnseignant = EnseignantServices.addEns(nom, prenom, email, grade, dept);
+
+        if (newEnseignant != null) {
+            System.out.println("Enseignant ajouté avec succès.");
+        } else {
+            System.out.println("Erreur lors de l'ajout de l'enseignant.");
+        }
 
         showEnseignants();
         showMenu();
@@ -55,12 +69,20 @@ public class EnseignantsController {
 
     public static void editEnseignant() {
         showEnseignants();
-        int id = Main.getIntInput("Sélectionnez un enseignant par id :");
-        String nom = Main.getStringInput("Entrez le nom :");
-        String prenom = Main.getStringInput("Entrez le prénom :");
-        String email = Main.getStringInput("Entrez l'email :");
+        int id = Main.getIntInput("Sélectionnez un enseignant par id : ");
+        String nom = Main.getStringInput("Entrez le nom : ");
+        String prenom = Main.getStringInput("Entrez le prénom : ");
+        String email = Main.getStringInput("Entrez l'email : ");
+        String grade = Main.getStringInput("Entrez le grade : ");
+        Departement dept = selectDepartment(); // You need to implement this method
 
-        EnseignantServices.updateEns(id, nom, prenom, email, email, null);
+        Enseignant updatedEnseignant = EnseignantServices.updateEns(id, nom, prenom, email, grade, dept);
+
+        if (updatedEnseignant != null) {
+            System.out.println("Enseignant mis à jour avec succès.");
+        } else {
+            System.out.println("Erreur lors de la mise à jour de l'enseignant.");
+        }
 
         showEnseignants();
         showMenu();
@@ -68,9 +90,40 @@ public class EnseignantsController {
 
     public static void destroyEnseignant() {
         showEnseignants();
-        int id = Main.getIntInput("Sélectionnez un enseignant par id :");
-        EnseignantServices.deleteEnsById(id);
-        showEnseignants();
-    }
-}
+        int id = Main.getIntInput("Sélectionnez un enseignant par id : ");
+        boolean isDeleted = EnseignantServices.deleteEnsById(id);
 
+        if (isDeleted) {
+            System.out.println("Enseignant supprimé avec succès.");
+        } else {
+            System.out.println("Erreur lors de la suppression de l'enseignant.");
+        }
+
+        showEnseignants();
+        showMenu();
+    }
+
+private static Departement selectDepartment() {
+    List<Departement> departements = DepartementServices.getAllDept();
+
+    if (departements.isEmpty()) {
+        System.out.println("Aucun département disponible.");
+        return null;
+    }
+
+    System.out.println("Sélectionnez un département:");
+    for (Departement dept : departements) {
+        System.out.println("Id: " + dept.getId() + " | Intitulé: " + dept.getIntitule());
+    }
+
+    int deptId = Main.getIntInput("Entrez l'ID du département: ");
+    Departement selectedDept = DepartementServices.getDeptById(deptId);
+
+    if (selectedDept == null) {
+        System.out.println("Département non trouvé. Veuillez essayer à nouveau.");
+        return null;
+    }
+
+    return selectedDept;
+}
+}
