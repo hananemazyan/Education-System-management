@@ -2,14 +2,19 @@ package lst.tpjava.controllers;
 
 import lst.tpjava.main.*;
 import lst.tpjava.models.Departement;
-import lst.tpjava.services.DB;
 import lst.tpjava.services.DepartementServices;
 import lst.tpjava.services.EnseignantServices;
 import java.util.ArrayList;
+
+
+/**
+ * DepartementController manages user interactions for note operations.
+ */
 public class DepartementsController {
 
-
-
+    /**
+     * Shows options for Departement management and handles user input.
+     */
     public static void showMenu() {
         System.out.println("-------------------------[ Départements ]---------------------------");
 
@@ -37,7 +42,10 @@ public class DepartementsController {
                 Main.showPrincipalMenu();
         }
     }
-
+    
+    /**
+     *  Displays all departement.
+     */
     public static void showDepartements() {
         ArrayList<Departement> departements = DepartementServices.getAllDept();
 
@@ -51,6 +59,9 @@ public class DepartementsController {
         System.out.println("--------------------------------------------------------------------------");
     }
 
+    /**
+     * create new departement.
+     */
     public static void createDepartement() {
         String intitule = Main.getStringInput("Entrez l'intitulé :");
         EnseignantsController.showEnseignants();
@@ -62,6 +73,9 @@ public class DepartementsController {
         showMenu();
     }
 
+    /**
+     * Updates an existing module based on user input.
+     */
     public static void editDepartement() {
         showDepartements();
         int id = Main.getIntInput("Sélectionnez un département par id :");
@@ -78,6 +92,9 @@ public class DepartementsController {
         showMenu();
     }
 
+    /**
+     * Deletes a departement based on its ID.
+     */
     public static void destroyDepartement() {
         showDepartements();
         int id = Main.getIntInput("Sélectionnez un département par id :");

@@ -13,7 +13,6 @@ public class DepartementServices {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            // Handle the exception or exit the program if necessary
         }
     }
 

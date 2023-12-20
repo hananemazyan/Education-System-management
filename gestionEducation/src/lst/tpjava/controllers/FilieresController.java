@@ -11,6 +11,9 @@ import lst.tpjava.models.Departement;;
 
 public class FilieresController {
 
+    /**
+     * Shows options for Majors management and handles user input.
+     */
     public static void showMenu() {
         System.out.println("-------------------------[ Filières ]---------------------------");
         System.out.println("1: Pour ajouter une filière");
@@ -38,6 +41,9 @@ public class FilieresController {
         }
     }
 
+    /**
+     * Displays all Majors
+     */
     public static void showFilieres() {
         for (Filiere filiere : FiliereServices.getAllFiliere()) {
             System.out.print("Id : " + filiere.getId());
@@ -47,6 +53,11 @@ public class FilieresController {
             System.out.println("");
         }
     }
+    
+    
+    /**
+     * create new Major
+     */
     public static void createFiliere() {
         String intitule = Main.getStringInput("Entrez l'intitulé de la filière :");
     
@@ -63,12 +74,14 @@ public class FilieresController {
     }
     
 
+    /**
+     * Updates an existing Major based on user input.
+     */
     public static void editFiliere() {
         showFilieres();
         int id = Main.getIntInput("Sélectionnez une filière par id :");
         String intitule = Main.getStringInput("Entrez le nouvel intitulé de la filière :");
     
-        // Obtention de l'enseignant
         int idChef = Main.getIntInput("Entrez le nom du nouvel enseignant de la filière :");
         Enseignant chef = EnseignantServices.getEnsById(idChef);
         while (chef == null) {
@@ -77,7 +90,6 @@ public class FilieresController {
             chef = EnseignantServices.getEnsById(idChef);
         }
     
-        // Obtention du département
         int idDept = Main.getIntInput("Entrez le nom du nouvel departement de la filière :");
         Departement dept = DepartementServices.getDeptById(idDept);
         while (dept == null) {
@@ -92,11 +104,9 @@ public class FilieresController {
         showMenu();
     }
     
-
-
-
-
-
+    /**
+     *  Deletes a Majors based on its ID.
+     */
     public static void destroyFiliere() {
         showFilieres();
         int id = Main.getIntInput("Sélectionnez une filière par id :");

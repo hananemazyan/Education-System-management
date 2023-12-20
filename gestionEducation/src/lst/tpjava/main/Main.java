@@ -10,6 +10,7 @@ import lst.tpjava.controllers.ModulesController;
 import lst.tpjava.controllers.NoteController;
 
 import lst.tpjava.models.Enseignant;
+import lst.tpjava.models.Filiere;
 import lst.tpjava.models.Departement;
 import lst.tpjava.services.DB;
 import lst.tpjava.services.DepartementServices;
@@ -133,7 +134,15 @@ public class Main {
         departement.setIntitule("Computer Science");
         departement.setChef(enseignant);  
         departement.setId(DB.getDeptId());
-        DB.departements.add(departement);         
+        DB.departements.add(departement); 
+        
+        
+        Filiere filiere = new Filiere();
+        filiere.setIntitule("SITD");
+        filiere.setChef(enseignant2);
+        filiere.setDept(departement);
+        DB.filieres.add(filiere);
+
            showPrincipalMenu();
 
     }

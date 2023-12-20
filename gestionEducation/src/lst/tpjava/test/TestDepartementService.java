@@ -1,18 +1,10 @@
 package lst.tpjava.test;
 
 
-import lst.tpjava.controllers.DepartementsController;
-import lst.tpjava.controllers.EnseignantsController;
-import lst.tpjava.controllers.EtudiantsController;
-import lst.tpjava.controllers.FilieresController;
-import lst.tpjava.controllers.ModulesController;
-import lst.tpjava.controllers.NoteController;
-
 import lst.tpjava.models.Enseignant;
 import lst.tpjava.models.Departement;
 import lst.tpjava.services.DepartementServices;
 
-import java.util.Scanner;
 
 public class TestDepartementService {
         public static void main(String[] args) {

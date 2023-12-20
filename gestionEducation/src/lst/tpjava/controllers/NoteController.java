@@ -18,14 +18,14 @@ public class NoteController {
      * Shows options for note management and handles user input.
      */
     public static void showMenu() {
-        System.out.println("---- Note Management ----");
-        System.out.println("1: Add a note");
-        System.out.println("2: Update a note");
-        System.out.println("3: Delete a note");
-        System.out.println("4: View all notes");
-        System.out.println("0: Return to main menu");
+        System.out.println("-------------------------[ Notes ]---------------------------");
+        System.out.println("1: Pour ajouter une note");
+        System.out.println("2: Pour modifier une note");
+        System.out.println("3: Pour supprimer une note");
+        System.out.println("4: Pour afficher les notes");
+        System.out.println("0: Pour retourner au menu principal");
 
-        int option = Main.getIntInput("Select an option: ");
+        int option = Main.getIntInput("Veuillez sélectionner une option : ");
 
         switch (option) {
             case 1:
@@ -40,74 +40,101 @@ public class NoteController {
             case 4:
                 viewAllNotes();
                 break;
-            case 0:
-                // Return to main menu or exit
-                break;
             default:
-                System.out.println("Invalid option.");
-                break;
+                Main.showPrincipalMenu();
         }
     }
 
+    /**
+     * Displays all notes.
+     */
+    public static void showNotes() {
+        ArrayList<Note> notes = NoteService.getAllNotes();
+        for (Note note : notes) {
+            System.out.println("Note ID: " + note.getId() + " | Grade: " + note.getNote() + 
+                               " | Student ID: " + note.getEtudiant().getId() + 
+                               " | Filiere: " + note.getFiliere().getIntitule());
+        }
+    }
+
+    /**
+     * Adds a new note based on user input.
+     */
     private static void addNote() {
-        // Get user input for adding a note
-        float grade = Main.getFloatInput("Enter the grade: ");
+        float grade = Main.getFloatInput("Enter the note: ");
         int studentId = Main.getIntInput("Enter student ID: ");
         int filiereId = Main.getIntInput("Enter filiere ID: ");
 
-        // Retrieve the student and filiere based on the IDs (You need to implement this logic)
         Etudiant etudiant = getEtudiantById(studentId);
         Filiere filiere = getFiliereById(filiereId);
 
         if (etudiant != null && filiere != null) {
             Note note = NoteService.addNote(grade, etudiant, filiere);
             System.out.println("Note added: " + note);
+            showNotes(); 
         } else {
             System.out.println("Student or filiere not found.");
         }
     }
 
+    /**
+     * Updates an existing note based on user input.
+     */
     private static void updateNote() {
-        // Get user input for updating a note
         int noteId = Main.getIntInput("Enter note ID: ");
         float newGrade = Main.getFloatInput("Enter new grade: ");
 
         Note updatedNote = NoteService.updateNote(noteId, newGrade);
         if (updatedNote != null) {
             System.out.println("Note updated: " + updatedNote);
+            showNotes(); 
         } else {
             System.out.println("Note not found.");
         }
     }
 
+    /**
+     * Deletes a note based on its ID.
+     */
     private static void deleteNote() {
         int noteId = Main.getIntInput("Enter note ID to delete: ");
         NoteService.deleteNoteById(noteId);
         System.out.println("Note deleted.");
+        showNotes(); 
     }
 
+    /**
+     * Displays all notes.
+     */
     private static void viewAllNotes() {
-        ArrayList<Note> notes = NoteService.getAllNotes();
-        for (Note note : notes) {
-            System.out.println(note);
-        }
+        showNotes(); // Utilizing showNotes method to display all notes
     }
 
-private static Etudiant getEtudiantById(int studentId) {
-    for (Etudiant etudiant : DB.etudiants) {
-        if (etudiant.getId() == studentId) {
-            return etudiant;
+    /**
+     * Retrieves an Etudiant by their ID.
+     * @param studentId The ID of the student.
+     * @return The Etudiant object, or null if not found.
+     */
+    private static Etudiant getEtudiantById(int studentId) {
+        for (Etudiant etudiant : DB.etudiants) {
+            if (etudiant.getId() == studentId) {
+                return etudiant;
+            }
         }
-    
+        return null;
     }
-    return null; 
-}
 
-private static Filiere getFiliereById(int filiereId) {
-    for (Filiere filiere : DB.filieres) {
-        if (filiere.getId() == filiereId) {
+    /**
+     * Retrieves a Filiere by its ID.
+     * @param filiereId The ID of the filiere.
+     * @return The Filiere object, or null if not found.
+     */
+    private static Filiere getFiliereById(int filiereId) {
+        for (Filiere filiere : DB.filieres) {
+            if (filiere.getId() == filiereId) {
             return filiere;
+            }
         }
+        return null; 
     }
-    return null; 
-}}
+}

@@ -10,6 +10,9 @@ import java.util.List;
 
 public class EnseignantsController {
 
+    /**
+     * Shows options for Enseignant management and handles user input.
+     */ 
     public static void showMenu() {
         System.out.println("-------------------------[ Enseignants ]---------------------------");
         System.out.println("1: Pour ajouter un enseignant");
@@ -37,17 +40,23 @@ public class EnseignantsController {
         }
     }
 
+    /**
+     * Displays all Enseignant
+     */
     public static void showEnseignants() {
         List<Enseignant> enseignants = EnseignantServices.getAllEns();
         if (enseignants.isEmpty()) {
             System.out.println("Aucun enseignant disponible.");
         } else {
             for (Enseignant enseignant : enseignants) {
-                System.out.println("Id: " + enseignant.getId() + " | Nom: " + enseignant.getNom() + " " + enseignant.getPrenom() + " | Email: " + enseignant.getEmail());
+                System.out.println("Id: " + enseignant.getId() + " | Nom: " + enseignant.getNom() + " " + enseignant.getPrenom() + " | Email: " + enseignant.getEmail() + "| Grade: " + enseignant.getGrade() + "| Departement : " + enseignant.getDept());
             }
         }
     }
 
+    /**
+     * create new enseignant
+     */
     public static void createEnseignant() {
         String nom = Main.getStringInput("Entrez le nom : ");
         String prenom = Main.getStringInput("Entrez le prénom : ");
@@ -67,6 +76,9 @@ public class EnseignantsController {
         showMenu();
     }
 
+    /**
+     * Updates an existing Enseignant based on user input.
+     */
     public static void editEnseignant() {
         showEnseignants();
         int id = Main.getIntInput("Sélectionnez un enseignant par id : ");
@@ -88,6 +100,9 @@ public class EnseignantsController {
         showMenu();
     }
 
+    /**
+     * Deletes a Enseignant based on its ID.
+     */
     public static void destroyEnseignant() {
         showEnseignants();
         int id = Main.getIntInput("Sélectionnez un enseignant par id : ");

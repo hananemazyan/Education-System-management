@@ -1,7 +1,7 @@
 package lst.tpjava.models;
 
 /**
- * Represents an academic module or course within the system.
+ * Represents a module or course within the system.
  */
 public class Module {
     private int id; 

@@ -58,11 +58,10 @@ public class EtudiantsController {
             System.out.println("");
         }
     }
-
+    
     /**
-     * Permet de créer un nouvel étudiant en demandant à l'utilisateur de saisir les informations nécessaires.
+     * create new student
      */
-
     public static void createEtudiant() {
         String nom = Main.getStringInput("Entrez le nom :");
         String prenom = Main.getStringInput("Entrez le prénom :");
@@ -76,10 +75,8 @@ public class EtudiantsController {
     }
 
     /**
-     * Permet de modifier les informations d'un étudiant existant.
-     * L'utilisateur sélectionne un étudiant par son ID et entre les nouvelles informations.
+     * Updates an existing student based on user input.
      */
-    
      public static void editEtudiant() {
         showEtudiants();
         int id = Main.getIntInput("Sélectionnez un étudiant par id :");
@@ -104,10 +101,9 @@ public class EtudiantsController {
         showMenu();
     }
 
-    /**
-     * Permet de supprimer un étudiant en demandant à l'utilisateur de saisir l'ID de l'étudiant à supprimer.
+   /**
+     * Deletes a student based on its ID.
      */
-    
     public static void destroyEtudiant() {
         showEtudiants();
         int id = Main.getIntInput("Sélectionnez un étudiant par id :");

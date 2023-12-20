@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class EnseignantServices {
 
-    // ... Other methods remain unchanged
 
     public static Enseignant addEns(String nom, String prenom, String email, String grade, Departement dept) {
         String sql = "INSERT INTO enseignants (nom, prenom, email, grade, departement_id) VALUES (?, ?, ?, ?, ?)";
