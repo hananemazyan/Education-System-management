@@ -23,31 +23,34 @@ public class Main {
         return ob == null ;
     }
     public static int getIntInput(String... msg) {
-        Scanner scan = new Scanner(System.in);
-        String message = "Entrez un nombre entier : ";
-        if (msg.length > 0 )
-            message = msg[0] ;
-        System.out.print(message);
-        int num = scan.nextInt();
-        return num;
+        try (Scanner scan = new Scanner(System.in)) {
+            String message = "Entrez un nombre entier : ";
+            if (msg.length > 0 )
+                message = msg[0] ;
+            System.out.print(message);
+            int num = scan.nextInt();
+            return num;
+        }
     }
 
     public static String getStringInput(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(prompt);
-        return scanner.nextLine();
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println(prompt);
+            return scanner.nextLine();
+        }
     }
 
     public static float getFloatInput(String... msg) {
-        Scanner scan = new Scanner(System.in);
-        String message = "Enter a floating-point number: ";
-        if (msg.length > 0)
-            message = msg[0];
-        System.out.print(message);
+        try (Scanner scan = new Scanner(System.in)) {
+            String message = "Enter a floating-point number: ";
+            if (msg.length > 0)
+                message = msg[0];
+            System.out.print(message);
 
-        float num = scan.nextFloat();
+            float num = scan.nextFloat();
 
-        return num;
+            return num;
+        }
     }
     public static void showPrincipalMenu(){
         System.out.println("-------------------------[ Bienvenu ]---------------------------");
