@@ -127,7 +127,6 @@ Contributions to this project are welcome. Please follow these guidelines:
 - **LinkedIn/GitHub**: [hanane mazyan /hananemazyan]
 
 ## Acknowledgments
-## Acknowledgments
 
 This project has been influenced and supported by several external resources and guidance:
 

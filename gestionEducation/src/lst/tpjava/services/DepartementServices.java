@@ -15,6 +15,7 @@ public class DepartementServices {
             e.printStackTrace();
         }
     }
+    //  Enseignant... chef which can accept zero or more Enseignant 
 
     public static Departement addDept(String intitule, Enseignant... chef) {
         String sql = "INSERT INTO departements (intitule, chef_id) VALUES (?, ?)";
@@ -96,31 +97,30 @@ public class DepartementServices {
         }
     }
 
-    public static Departement getDeptById(int id) {
-        String sql = "SELECT id, intitule, chef_id FROM departements WHERE id = ?";
+    public static Departement getDeptById(int deptId) {
+        String sql = "SELECT * FROM departements WHERE id = ?";
+        Departement departement = null;
 
         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+            pstmt.setInt(1, deptId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String intitule = rs.getString("intitule");
+                    Integer chefId = (rs.getInt("chef_id") != 0) ? rs.getInt("chef_id") : null; // Assuming chef_id can be null
 
-            if (rs.next()) {
-                Departement departement = new Departement();
-                departement.setId(rs.getInt("id"));
-                departement.setIntitule(rs.getString("intitule"));
-
-                int chefId = rs.getInt("chef_id");
-                if (!rs.wasNull()) {
-                    Enseignant chef = EnseignantServices.getEnsById(chefId); // Implement this method
-                    departement.setChef(chef);
+                    departement = new Departement();
+                    departement.setId(deptId);
+                    departement.setIntitule(intitule);
+                    // Optionally handle the chefId to set the chef of the department
                 }
-                return departement;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Or handle the exception as per your application's standards
         }
-        return null;
+
+        return departement;
     }
 
     public static ArrayList<Departement> getAllDept() {

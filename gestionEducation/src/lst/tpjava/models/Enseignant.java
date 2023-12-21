@@ -15,6 +15,18 @@ public class Enseignant {
     private Departement dept;
     ArrayList<Module> modules = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Enseignant{" +
+               "id=" + id +
+               ", nom='" + nom + '\'' +
+               ", prenom='" + prenom + '\'' +
+               ", email='" + email + '\'' +
+               ", grade='" + grade + '\'' +
+               ", departement=" + (dept != null ? dept.getIntitule() : "None") +
+               '}';
+    }
+
     /**
      * Default constructor. Initializes an instance of Enseignant without setting its fields.
      */

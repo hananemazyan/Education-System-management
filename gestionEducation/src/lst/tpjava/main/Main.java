@@ -23,25 +23,25 @@ public class Main {
         return ob == null ;
     }
     public static int getIntInput(String... msg) {
-        try (Scanner scan = new Scanner(System.in)) {
+        Scanner scan = new Scanner(System.in);
             String message = "Entrez un nombre entier : ";
             if (msg.length > 0 )
                 message = msg[0] ;
             System.out.print(message);
             int num = scan.nextInt();
             return num;
-        }
+        
     }
 
     public static String getStringInput(String prompt) {
-        try (Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in) ;
             System.out.println(prompt);
             return scanner.nextLine();
-        }
+        
     }
 
     public static float getFloatInput(String... msg) {
-        try (Scanner scan = new Scanner(System.in)) {
+        Scanner scan = new Scanner(System.in);
             String message = "Enter a floating-point number: ";
             if (msg.length > 0)
                 message = msg[0];
@@ -50,7 +50,7 @@ public class Main {
             float num = scan.nextFloat();
 
             return num;
-        }
+        
     }
     public static void showPrincipalMenu(){
         System.out.println("-------------------------[ Bienvenu ]---------------------------");
